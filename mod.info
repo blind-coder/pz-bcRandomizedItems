@@ -1,6 +1,6 @@
-name=Randomized Items
-poster=empty.png
-description=Randomizes weapon condition and fill levels for items with multiple uses (pills, water bottles, etc.). <LINE> Also automatically combines identical items with differen fill levels UNLESS it is replaced with another item when empty. <LINE> So water bottles will NOT be combined into one while two half empty vitamin bottle will be combined into one full vitamin bottles.
+name=Secondhand Loots
+poster=secondhandloots.png
+description=Randomizes weapon condition and fill levels for items with multiple uses (pills, water bottles, etc.). <LINE> Also automatically combines identical items with differen fill levels UNLESS it is replaced with another item when empty. <LINE> So water bottles will NOT be combined into one while two half empty vitamin bottle will be combined into one full vitamin bottles. <LINE> <LINE> Preview image created by Onkeen (Thanks!)
 id=bcRandomizedItems
 
 modversion=0.8.0
