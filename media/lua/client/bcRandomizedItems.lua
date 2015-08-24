@@ -24,6 +24,8 @@ ISInventoryTransferAction.perform = function(self)--{{{
 	end
 	while inv:FindAndReturn(fullType) ~= nil do
 		local it = inv:FindAndReturn(fullType);
+		it:setUsedDelta(0);
+		it:Use();
 		inv:Remove(it);
 	end
 
