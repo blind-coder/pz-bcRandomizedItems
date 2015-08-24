@@ -1,6 +1,8 @@
 require 'TimedActions/ISInventoryTransferAction'
 
 if not BCGT then BCGT = {} end
+if not BCGT.MergeIgnore then BCGT.MergeIgnore = {} end
+BCGT.MergeIgnore["Base.Torch"] = 1;
 
 BCGT.ISITAperform = ISInventoryTransferAction.perform;
 -- Combine Drainable items on transfer
@@ -8,7 +10,8 @@ ISInventoryTransferAction.perform = function(self)--{{{
 	local retVal = BCGT.ISITAperform(self);
 
 	if self.item == nil then return retVal end;
-	if not (instanceof(self.item, "Drainable") or instanceof(self.item, "DrainableComboItem")) then return retVal end
+	if not (instanceof(self.item, "Drainable") or instanceof(self.item, "DrainableComboItem")) then return retVal end;
+	if BCGT.MergeIgnore[self.item:getFullType()] then return retVal end;
 	if self.item:getReplaceOnDeplete() ~= nil then return retVal end; -- usually water bottles etc.
 
 	local fullType = self.item:getFullType();
