@@ -9,6 +9,7 @@ BCGT.ISITAperform = ISInventoryTransferAction.perform;
 ISInventoryTransferAction.perform = function(self)--{{{
 	local retVal = BCGT.ISITAperform(self);
 
+	if self.destContainer:getType() == "floor" then return retVal end;
 	if self.item == nil then return retVal end;
 	if not (instanceof(self.item, "Drainable") or instanceof(self.item, "DrainableComboItem")) then return retVal end;
 	if BCGT.MergeIgnore[self.item:getFullType()] then return retVal end;
