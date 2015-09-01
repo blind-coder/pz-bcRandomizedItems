@@ -98,8 +98,8 @@ function BCGT.randomizeCondition(item)--{{{
 		end
 
 		--[[ TODO {{{
-		if unlucky then
-			if ZombRand(20) == 12 then -- 5% chance
+		if not perfect then
+			if (unlucky and ZombRand(15) == 8) or (ZombRand(20) == 12) then -- 1 in 15 to 1 in 20 chance
 				item:setHaveBeenRepaired(1+ZombRand(3));
 			end
 		end
