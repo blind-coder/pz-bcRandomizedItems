@@ -3,6 +3,9 @@ require 'TimedActions/ISInventoryTransferAction'
 if not BCGT then BCGT = {} end
 if not BCGT.MergeIgnore then BCGT.MergeIgnore = {} end
 BCGT.MergeIgnore["Base.Torch"] = 1;
+BCGT.MergeIgnore["Base.Battery"] = 1;
+BCGT.MergeIgnore["Base.CandleLit"] = 1;
+BCGT.MergeIgnore["Base.PropaneTank"] = 1;
 
 BCGT.ISITAperform = ISInventoryTransferAction.perform;
 -- Combine Drainable items on transfer
