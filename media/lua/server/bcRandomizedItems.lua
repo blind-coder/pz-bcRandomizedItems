@@ -110,16 +110,16 @@ function BCGT.randomizeCondition(item)--{{{
 	-- so 0.5 means half full, 0.1 means 10% full, etc.
 	if instanceof(item, "DrainableComboItem") or instanceof(item, "Drainable") then
 		local oneUse = item:getUseDelta(); -- getUseDelta returns a percentage in float (f.e.: 0.04)
-		local maxUses = 1 / oneUse;
-		minCondition = math.max(oneUse * 100, minCondition); -- safeguard for not handling empty items
+		local maxUses = math.floor(1 / oneUse);
+		minCondition = math.max(1, math.floor(maxUses * (minCondition / 100)));
 		if broken then
-			item:setUsedDelta(minCondition/100);
+			item:setUsedDelta(minCondition);
 		elseif perfect then
 			item:setUsedDelta(1.0);
 		else
-			local newCondition = ZombRand(minCondition, maxUses-1); -- used at least once
-			newCondition = math.min(maxCondition, newCondition); -- make sure minCondition <= newCondition <= maxCondition
-			item:setUsedDelta(newCondition/100);
+			local newCondition = ZombRand(1, maxUses-1); -- used at least once
+			newCondition = newCondition * oneUse; -- make sure minCondition <= newCondition <= maxCondition
+			item:setUsedDelta(newCondition);
 		end
 	end
 end--}}}
