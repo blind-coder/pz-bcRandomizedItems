@@ -113,7 +113,7 @@ function BCGT.randomizeCondition(item)--{{{
 		local maxUses = math.floor(1 / oneUse);
 		minCondition = math.max(1, math.floor(maxUses * (minCondition / 100)));
 		if broken then
-			item:setUsedDelta(minCondition);
+			item:setUsedDelta(minCondition * oneUse);
 		elseif perfect then
 			item:setUsedDelta(1.0);
 		else
