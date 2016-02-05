@@ -37,7 +37,22 @@ BCGT.perfectChance = {
 	["Base.HuntingKnife"] = 250 -- 25%, made for endurance
 }
 
-function BCGT.randomizeCondition(item)--{{{
+-- Extend this if you want better / worse chances for certain rooms.
+-- Higher chance means higher chance for higher conditions.
+-- Lower chance means higher chance for worse conditions.
+-- Impact is the maximum increase/decrease in condition
+-- Default: 0
+-- Syntax is: [roomtype] = { chance = [chance], impact = [impact] }
+BCGT.roomBonus = {
+	shed = {chance = -50, impact = 50},
+	garagestorage = {chance = -50, impact = 50},
+	garage_storage = {chance = -50, impact = 50},
+	shed = {chance = -50, impact = 50},
+	gunstore = {chance = 80, impact = 75},
+	fossoil = {chance = 50, impact = 25},
+	gasstorage = {chance = 50, impact = 25},
+}
+function BCGT.randomizeCondition(item, roomtype)--{{{
 	if not instanceof(item, "HandWeapon") and not instanceof(item, "DrainableComboItem") and not instanceof(item, "Drainable") then return end
 	print("Randomising condition of a "..item:getDisplayName());
 	-- defaults for all items
@@ -93,6 +108,14 @@ function BCGT.randomizeCondition(item)--{{{
 			item:setCondition(item:getConditionMax(), false);
 		else
 			local newCondition = ZombRand(100);
+			local bonus = BCGT.roomBonus[roomtype] or {chance = 0, impact = 0};
+			if ZombRand(100) < bonus.chance then
+				newCondition = newCondition + ZombRand(bonus.impact);
+			end
+			if ZombRand(100) < -bonus.chance then
+				newCondition = newCondition - ZombRand(bonus.impact);
+			end
+			bcUtils.pline("New condition: "..newCondition);
 			newCondition = math.min(maxCondition, newCondition); -- make sure minCondition <= newCondition <= maxCondition
 			newCondition = math.max(minCondition, newCondition);
 			newCondition = item:getConditionMax() * newCondition / 100;
@@ -120,6 +143,15 @@ function BCGT.randomizeCondition(item)--{{{
 			item:setUsedDelta(1.0);
 		else
 			local newCondition = ZombRand(1, maxUses-1); -- used at least once
+			local bonus = BCGT.roomBonus[roomtype] or {chance = 0, impact = 0};
+			if ZombRand(100) < bonus.chance then
+				newCondition = (newCondition*oneUse) + ZombRand(bonus.impact);
+				newCondition = math.floor(newCondition / oneUse);
+			end
+			if ZombRand(100) < -bonus.chance then
+				newCondition = (newCondition*oneUse) - ZombRand(bonus.impact);
+				newCondition = math.floor(newCondition / oneUse);
+			end
 			newCondition = newCondition * oneUse; -- make sure minCondition <= newCondition <= maxCondition
 			item:setUsedDelta(newCondition);
 		end
@@ -136,9 +168,9 @@ BCGT.OnFillContainer = function(roomtype, containertype, container)--{{{
 	for idx=0,container:getItems():size()-1 do
 		local item = container:getItems():get(idx);
 
-		BCGT.randomizeCondition(item);
+		BCGT.randomizeCondition(item, roomtype);
 		if SuburbsDistributions[item:getType()] then -- item is a generated container containing items to randomise
-			BCGT.OnFillContainer(nil, nil, item:getItemContainer());
+			BCGT.OnFillContainer(roomtype, containertype, item:getItemContainer());
 		end
 	end
 end--}}}
