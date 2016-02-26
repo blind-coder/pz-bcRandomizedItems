@@ -33,7 +33,7 @@ ISInventoryTransferAction.perform = function(self)--{{{
 	end
 
 	while fillstate > 0.0001 do
-		local it = inv:AddItem(fullType);
+		local it = inv:AddItem(fullType, true);
 		if fillstate < 100 then
 			it:setUsedDelta(fillstate / 100);
 			fillstate = 0;

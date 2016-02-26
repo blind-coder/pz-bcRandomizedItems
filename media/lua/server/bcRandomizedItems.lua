@@ -47,7 +47,6 @@ BCGT.roomBonus = {
 	shed = {chance = -50, impact = 50},
 	garagestorage = {chance = -50, impact = 50},
 	garage_storage = {chance = -50, impact = 50},
-	shed = {chance = -50, impact = 50},
 	gunstore = {chance = 80, impact = 75},
 	fossoil = {chance = 50, impact = 25},
 	gasstorage = {chance = 50, impact = 25},
