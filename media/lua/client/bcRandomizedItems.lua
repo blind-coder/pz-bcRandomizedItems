@@ -32,8 +32,14 @@ ISInventoryTransferAction.perform = function(self)--{{{
 		inv:Remove(it);
 	end
 
+	local version = getCore():getVersionNumber();
 	while fillstate > 0.0001 do
-		local it = inv:AddItem(fullType, true);
+		local it;
+		--if string.find(version, "33%.") then
+			it = inv:AddItem(fullType);
+		--else
+			--it = inv:AddItem(fullType, true);
+		--end
 		if fillstate < 100 then
 			it:setUsedDelta(fillstate / 100);
 			fillstate = 0;
